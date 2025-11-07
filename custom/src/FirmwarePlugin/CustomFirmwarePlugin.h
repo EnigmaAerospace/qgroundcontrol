@@ -30,6 +30,8 @@ public:
     const QVariantList& toolIndicators  (const Vehicle* vehicle) final;
     bool                hasGimbal       (Vehicle* vehicle, bool& rollSupported, bool& pitchSupported, bool& yawSupported) const final;
     void                updateAvailableFlightModes      (FlightModeList &modeList) override;
+    bool                hasGripper(const Vehicle* vehicle) const override {return true;};
+
 
 private:
     QVariantList _toolIndicatorList;

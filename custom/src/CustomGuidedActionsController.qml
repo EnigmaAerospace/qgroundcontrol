@@ -14,9 +14,9 @@ import QtQml
 QtObject {
     readonly property int actionCustomButton: _guidedController.customActionStart + 0
 
-    readonly property string customButtonTitle: qsTr("Custom")
+    readonly property string customButtonTitle: qsTr("Avoid")
 
-    readonly property string customButtonMessage: qsTr("Example of a custom action.")
+    readonly property string customButtonMessage: qsTr("Placeholder for avoiding other aircraft.")
 
     function customConfirmAction(actionCode, actionData, mapIndicator, confirmDialog) {
         switch (actionCode) {
@@ -35,7 +35,7 @@ QtObject {
     function customExecuteAction(actionCode, actionData, sliderOutputValue, optionCheckedode) {
         switch (actionCode) {
         case actionCustomButton:
-            mainWindow.showMessageDialog("Custom Action", "I suppose this did something, but what?")
+            mainWindow.showMessageDialog("Avoid", "Avoid other aircaft.")
             break
         default:
             return false // false = action not handled here

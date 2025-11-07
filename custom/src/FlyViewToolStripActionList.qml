@@ -23,13 +23,14 @@ ToolStripActionList {
         GuidedActionLand { },
         GuidedActionRTL { },
         GuidedActionPause { },
-        FlyViewAdditionalActionsButton { },
+        GuidedActionGripper { },
         GuidedToolStripAction {
             text:       _guidedController._customController.customButtonTitle
-            iconSource: "/res/gear-white.svg"
+            iconSource: "/res/shield-airplane-white.svg"
             visible:    true
             enabled:    true
             actionID:   _guidedController._customController.actionCustomButton
-}
+        },
+        FlyViewAdditionalActionsButton { }
     ]
 }
