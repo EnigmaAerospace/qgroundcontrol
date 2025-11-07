@@ -160,7 +160,7 @@ bool CustomPlugin::adjustSettingMetaData(const QString& settingsGroup, FactMetaD
             metaData.setRawDefaultValue(QGCMAVLink::FirmwareClassPX4);
             return false;
         } else if (metaData.name() == AppSettings::offlineEditingVehicleClassName) {
-            metaData.setRawDefaultValue(QGCMAVLink::VehicleClassMultiRotor);
+            metaData.setRawDefaultValue(QGCMAVLink::VehicleClassFixedWing);
             return false;
         }
     }

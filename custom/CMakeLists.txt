@@ -90,3 +90,5 @@ set(CUSTOM_INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/FirmwarePlugin
     CACHE INTERNAL "" FORCE
 )
+
+message(STATUS "Done: Adding Custom Plugin")

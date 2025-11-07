@@ -54,7 +54,7 @@ bool CustomFirmwarePlugin::hasGimbal(Vehicle* /*vehicle*/, bool& rollSupported, 
     pitchSupported = true;
     yawSupported = true;
 
-    return true;
+    return false;   // Actually, don't have a gimbal
 }
 
 void CustomFirmwarePlugin::updateAvailableFlightModes(FlightModeList &modeList)

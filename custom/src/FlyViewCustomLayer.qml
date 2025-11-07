@@ -243,7 +243,7 @@ Item {
         anchors.rightMargin:    _toolsMargin
         anchors.bottom:         parent.bottom
         anchors.right:          parent.right
-        height:                 ScreenTools.defaultFontPixelHeight * 6
+        height:                 ScreenTools.defaultFontPixelHeight * 12
         width:                  height
         radius:                 height * 0.5
         color:                  qgcPal.windowShade
