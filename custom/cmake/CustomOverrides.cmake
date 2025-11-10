@@ -1,7 +1,7 @@
 set(QGC_APP_NAME "Nexus-QGC" CACHE STRING "App Name" FORCE)
 set(QGC_APP_COPYRIGHT "Copyright (c) 2025 Enigma Aerospace. All rights reserved." CACHE STRING "Copyright" FORCE)
 set(QGC_APP_DESCRIPTION "Ground Control App" CACHE STRING "Description" FORCE)
-set(QGC_ORG_NAME "Enigma Aerospace" CACHE STRING "Org Name" FORCE)
+set(QGC_ORG_NAME "EnigmaAerospace" CACHE STRING "Org Name" FORCE)
 set(QGC_ORG_DOMAIN "enigma.aero" CACHE STRING "Domain" FORCE)
 
 set(QGC_MACOS_ICON_PATH "${CMAKE_SOURCE_DIR}/custom/res" CACHE PATH "MacOS Icon Path" FORCE)
