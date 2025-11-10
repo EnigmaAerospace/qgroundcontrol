@@ -125,7 +125,7 @@ jobs:
       - name: Sanity check release excecutable
         if: matrix.BuildType == 'Release'
         working-directory: ${{ runner.temp }}\shadow_build_dir\Release
-        run: QGroundControl.exe --simple-boot-test
+        run: Nexus-QGC.exe --simple-boot-test
 
       - name: Install
         working-directory: ${{ runner.temp }}\shadow_build_dir

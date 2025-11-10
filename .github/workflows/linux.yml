@@ -37,8 +37,8 @@ jobs:
         shell: bash
 
     env:
-      ARTIFACT: QGroundControl-x86_64.AppImage
-      PACKAGE: QGroundControl-x86_64
+      ARTIFACT: Nexus-QGC-x86_64.AppImage
+      PACKAGE: Nexus-QGC-x86_64
       QT_VERSION: 6.8.3
 
     steps:
@@ -115,7 +115,6 @@ jobs:
         if: matrix.BuildType == 'Debug'
         working-directory: ${{ runner.temp }}/shadow_build_dir
         run: xvfb-run -a ./${{ env.ARTIFACT }} --unittest
-
       - name: Upload Build File
         if: matrix.BuildType == 'Release'
         uses: ./.github/actions/upload
