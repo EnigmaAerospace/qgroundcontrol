@@ -54,12 +54,12 @@ jobs:
       - name: Initial Setup
         uses: ./.github/actions/common
 
-      - name: Enable custom build
-        run: |
-          if not exist ".\custom-example" (
-            echo Directory ".\custom-example" does not exist. && exit /b 1
-          )
-          xcopy /E /I ".\custom-example" ".\custom"
+      # - name: Enable custom build
+      #   run: |
+      #     if not exist ".\custom-example" (
+      #       echo Directory ".\custom-example" does not exist. && exit /b 1
+      #     )
+      #     xcopy /E /I ".\custom-example" ".\custom"
 
       - name: Install GStreamer
         uses: blinemedical/setup-gstreamer@v1
