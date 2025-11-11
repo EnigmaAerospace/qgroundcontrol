@@ -7,12 +7,12 @@ set(QGC_ORG_DOMAIN "enigma.aero" CACHE STRING "Domain" FORCE)
 set(QGC_MACOS_ICON_PATH "${CMAKE_SOURCE_DIR}/custom/res" CACHE PATH "MacOS Icon Path" FORCE)
 set(QGC_APPIMAGE_ICON_PATH "${CMAKE_SOURCE_DIR}/custom/res/icons/enigma-logo.png" CACHE FILEPATH "AppImage Icon Path" FORCE)
 
-if(EXISTS ${CMAKE_SOURCE_DIR}/custom/deploy/windows/enigmaInstallHeader.bmp)
-    set(QGC_WINDOWS_INSTALL_HEADER_PATH "${CMAKE_SOURCE_DIR}/custom/deploy/windows/enigmaInstallHeader.bmp" CACHE FILEPATH "Windows Install Header Path" FORCE)
+if(EXISTS ${CMAKE_SOURCE_DIR}/custom/deploy/windows/installheader.bmp)
+    set(QGC_WINDOWS_INSTALL_HEADER_PATH "${CMAKE_SOURCE_DIR}/custom/deploy/windows/installheader.bmp" CACHE FILEPATH "Windows Install Header Path" FORCE)
 endif()
 
-if(EXISTS ${CMAKE_SOURCE_DIR}/custom/deploy/windows/WindowsNexusQGC.ico)
-    set(QGC_WINDOWS_ICON_PATH "${CMAKE_SOURCE_DIR}/custom/deploy/windows/WindowsNexusQGC.ico" CACHE FILEPATH "Windows Icon Path" FORCE)
+if(EXISTS ${CMAKE_SOURCE_DIR}/custom/deploy/windows/WindowsQGC.ico)
+    set(QGC_WINDOWS_ICON_PATH "${CMAKE_SOURCE_DIR}/custom/deploy/windows/WindowsQGC.ico" CACHE FILEPATH "Windows Icon Path" FORCE)
 endif()
 
 # Build a single flight stack by disabling APM support
