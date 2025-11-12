@@ -55,6 +55,14 @@ public:
     Q_PROPERTY(QStringList              saveNameFilters         READ saveNameFilters                        CONSTANT)                       ///< File filter list saving plan files
     Q_PROPERTY(QmlObjectListModel*      planCreators            MEMBER _planCreators                        NOTIFY planCreatorsChanged)
 
+    Q_PROPERTY(QString                  validationAnticipatedResult   READ validationAnticipatedResult         NOTIFY validateChanged)                       ///< File extension for missions
+    Q_PROPERTY(QString                  validationTimeInTransit       READ validationTimeInTransit             NOTIFY validateChanged)                       ///< File extension for missions
+    Q_PROPERTY(QString                  validationRealTimeCost        READ validationRealTimeCost              NOTIFY validateChanged)                       ///< File extension for missions
+    Q_PROPERTY(QString                  validationTotalDuration       READ validationTotalDuration             NOTIFY validateChanged)                       ///< File extension for missions
+    Q_PROPERTY(QString                  validationTotalMissionCost    READ validationTotalMissionCost          NOTIFY validateChanged)                       ///< File extension for missions
+    Q_PROPERTY(QString                  validationMissionRisk         READ validationMissionRisk               NOTIFY validateChanged)                       ///< File extension for missions
+    Q_PROPERTY(QString                  validationMissionRange        READ validationMissionRange              NOTIFY validateChanged)                       ///< File extension for missions
+
     /// Should be called immediately upon Component.onCompleted.
     Q_INVOKABLE void start(void);
 
@@ -83,6 +91,8 @@ public:
     Q_INVOKABLE void saveToKml(const QString& filename);
     Q_INVOKABLE void removeAll(void);                       ///< Removes all from controller only, synce required to remove from vehicle
     Q_INVOKABLE void removeAllFromVehicle(void);            ///< Removes all from vehicle and controller
+    Q_INVOKABLE void validatePlan(void);
+
 
     MissionController*      missionController(void)     { return &_missionController; }
     GeoFenceController*     geoFenceController(void)    { return &_geoFenceController; }
@@ -96,6 +106,14 @@ public:
     QString     fileExtension   (void) const;
     QString     kmlFileExtension(void) const;
     QString     currentPlanFile (void) const { return _currentPlanFile; }
+    QString     validationAnticipatedResult (void) const { return _validationAnticipatedResult; }
+    QString     validationTimeInTransit       (void) const { return _validationTimeInTransit; }
+    QString     validationRealTimeCost        (void) const { return _validationRealTimeCost; }
+    QString     validationTotalDuration       (void) const { return _validationTotalDuration; }
+    QString     validationTotalMissionCost    (void) const { return _validationTotalMissionCost; }
+    QString     validationMissionRisk         (void) const { return _validationMissionRisk; }
+    QString     validationMissionRange        (void) const { return _validationMissionRange; }
+
     QStringList loadNameFilters (void) const;
     QStringList saveNameFilters (void) const;
     bool        isEmpty         (void) const;
@@ -122,6 +140,7 @@ signals:
     void planCreatorsChanged                (QmlObjectListModel* planCreators);
     void managerVehicleChanged              (Vehicle* managerVehicle);
     void promptForPlanUsageOnVehicleChange  (void);
+    void validateChanged                    (void);
 
 private slots:
     void _activeVehicleChanged      (Vehicle* activeVehicle);
@@ -137,6 +156,8 @@ private slots:
 private:
     void _commonInit                (void);
     void _showPlanFromManagerVehicle(void);
+    QJsonObject _getRouteJsonObjectForValidation(void);
+
 
     MultiVehicleManager*    _multiVehicleMgr =          nullptr;
     Vehicle*                _controllerVehicle =        nullptr;    ///< Offline controller vehicle
@@ -154,4 +175,12 @@ private:
     bool                    _deleteWhenSendCompleted =  false;
     bool                    _previousOverallDirty =     false;
     QmlObjectListModel*     _planCreators =             nullptr;
+    QString                 _validationAnticipatedResult;
+    QString                 _validationTimeInTransit;
+    QString                 _validationRealTimeCost;
+    QString                 _validationTotalDuration;
+    QString                 _validationTotalMissionCost;
+    QString                 _validationMissionRisk;
+    QString                 _validationMissionRange;
+
 };

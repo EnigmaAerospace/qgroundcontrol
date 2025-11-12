@@ -583,6 +583,13 @@ Item {
                         dropPanelComponent:     syncDropPanel
                     },
                     ToolStripAction {
+                        text:                   qsTr("Validate")
+                        enabled:                !_planMasterController.syncInProgress
+                        visible:                true
+                        iconSource:             "/qmlimages/MapValidate.svg"
+                        dropPanelComponent:     validateDropPanel
+                    },
+                    ToolStripAction {
                         text:       qsTr("Takeoff")
                         iconSource: "/res/takeoff.svg"
                         enabled:    _missionController.isInsertTakeoffValid
@@ -1159,6 +1166,134 @@ Item {
                         clearButtonClicked()
                     }
                 }
+            }
+        }
+    }
+
+        Component {
+        id: validateDropPanel
+
+        ColumnLayout {
+            id:         columnHolder
+            spacing:    _margin
+
+            property string _overwriteText: qsTr("Plan overwrite")
+
+            QGCLabel {
+                id:                 unsavedChangedLabel
+                Layout.fillWidth:   true
+                wrapMode:           Text.WordWrap
+                text:               globals.activeVehicle ?
+                                        qsTr("You have unsaved changes. You should upload to your vehicle, or save to a file.") :
+                                        qsTr("You have unsaved changes.")
+                visible:            _planMasterController.dirty
+            }
+
+            SectionHeader {
+                id:                 createSection
+                Layout.fillWidth:   true
+                text:               qsTr("Validate Plan with Nexus")
+                showSpacer:         false
+            }
+
+            
+            QGCButton {
+                text:               qsTr("Upload Plan for Validation")
+                Layout.fillWidth:   true
+                enabled:            !_planMasterController.syncInProgress //&& _planMasterController.containsItems
+                onClicked: {
+                    //dropPanel.hide()
+                    _planMasterController.validatePlan()
+                }
+            }
+
+            SectionHeader {
+                id:                 storageSection
+                Layout.fillWidth:   true
+                text:               qsTr("Results")
+            }
+
+            GridLayout {
+                columns:            2
+                rowSpacing:         _margin
+                columnSpacing:      ScreenTools.defaultFontPixelWidth
+                visible:            storageSection.checked
+
+               Text {
+                    text:               qsTr("Anticipated result:")
+                    Layout.fillWidth:   true
+                    color:              qgcPal.text
+                }
+
+                Text {
+                    text:              _planMasterController.validationAnticipatedResult
+                    Layout.fillWidth:   true
+                    color:              qgcPal.text
+                }
+               Text {
+                    text:               qsTr("Time in transit (HH:MM): ")
+                    Layout.fillWidth:   true
+                    color:              qgcPal.text
+                }
+
+                Text {
+                    text:              _planMasterController.validationTimeInTransit
+                    Layout.fillWidth:   true
+                    color:              qgcPal.text
+                }
+               Text {
+                    text:               qsTr("Real time cost ($): ")
+                    Layout.fillWidth:   true
+                    color:              qgcPal.text
+                }
+
+                Text {
+                    text:              _planMasterController.validationRealTimeCost
+                    Layout.fillWidth:   true
+                    color:              qgcPal.text
+                }                                  
+               Text {
+                    text:               qsTr("Total duration (HH:MM): ")
+                    Layout.fillWidth:   true
+                    color:              qgcPal.text
+                }
+
+                Text {
+                    text:              _planMasterController.validationTotalDuration
+                    Layout.fillWidth:   true
+                    color:              qgcPal.text
+                }
+               Text {
+                    text:               qsTr("Total mission cost ($): ")
+                    Layout.fillWidth:   true
+                    color:              qgcPal.text
+                }
+                Text {
+                    text:               _planMasterController.validationTotalMissionCost
+                    Layout.fillWidth:   true
+                    color:              qgcPal.text
+                }
+               Text {
+                    text:               qsTr("Mission Risk: ")
+                    Layout.fillWidth:   true
+                    color:              qgcPal.text
+                }
+                Text {
+                    text:              _planMasterController.validationMissionRisk
+                    Layout.fillWidth:   true
+                    color:              qgcPal.text
+                }    
+                Text {
+                    text:               qsTr("Mission Range (nm): ")
+                    Layout.fillWidth:   true
+                    color:              qgcPal.text
+                }
+
+                Text {
+                    text:              _planMasterController.validationMissionRange
+                    Layout.fillWidth:   true
+                    color:              qgcPal.text
+                }                            
             }
         }
     }

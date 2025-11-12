@@ -126,6 +126,7 @@
         <file alias="MapSyncChanged.svg">src/FlightMap/Images/MapSyncChanged.svg</file>
         <file alias="MapType.svg">src/FlightMap/Images/MapType.svg</file>
         <file alias="MapTypeBlack.svg">src/FlightMap/Images/MapTypeBlack.svg</file>
+        <file alias="MapValidate.svg">src/FlightMap/Images/MapValidate.svg</file>
         <file alias="MAVLinkConsoleIcon.svg">src/AnalyzeView/MAVLinkConsoleIcon.svg</file>
         <file alias="MAVLinkInspector.svg">src/AnalyzeView/MAVLinkInspector.svg</file>
         <file alias="Megaphone.svg">src/UI/toolbar/Images/Megaphone.svg</file>

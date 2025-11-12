@@ -29,6 +29,12 @@
 #include <QtCore/QJsonDocument>
 #include <QtCore/QFileInfo>
 
+#include <QtNetwork/QNetworkReply>
+#include <QtNetwork/QNetworkAccessManager>
+#include <QtNetwork/QNetworkRequest>
+#include <QtNetwork/QNetworkProxy>
+
+
 QGC_LOGGING_CATEGORY(PlanMasterControllerLog, "PlanMasterControllerLog")
 
 PlanMasterController::PlanMasterController(QObject* parent)
@@ -224,6 +230,100 @@ void PlanMasterController::loadFromVehicle(void)
         _missionController.loadFromVehicle();
         setDirty(false);
     }
+}
+
+QJsonObject PlanMasterController::_getRouteJsonObjectForValidation()
+{
+    QJsonObject routeObject;
+    _missionController.addMissionValidationJson(routeObject);
+    return routeObject;
+}   
+
+void PlanMasterController::validatePlan(void)
+{
+    qCWarning(PlanMasterControllerLog) << "PlanMasterController::validatePlan called";
+    
+    // Call a network service to validate the plan here
+    QNetworkAccessManager *networkManager = nullptr;
+
+    if (!networkManager) {
+        networkManager = new QNetworkAccessManager(this);
+#if !defined(Q_OS_IOS) && !defined(Q_OS_ANDROID)
+        QNetworkProxy proxy = networkManager->proxy();
+        proxy.setType(QNetworkProxy::DefaultProxy);
+        networkManager->setProxy(proxy);
+#endif
+    }
+    QString authToken = "DUMMY_TOKEN"; // Replace with your actual token
+    QUrl url("DUMMY_URL/mission-analysis"); // Replace with your target URL
+    QNetworkRequest request(url);
+    request.setRawHeader("Content-Type", "application/json");
+    request.setRawHeader("Accept", "application/json");
+    request.setRawHeader("Authorization", "Bearer " + authToken.toUtf8());
+    QJsonObject jsonObject;
+    jsonObject["fleetId"] = "74b17faa-08cb-4065-89f6-11f5f3663008";
+    QJsonObject routeObject = _getRouteJsonObjectForValidation();
+    jsonObject["route"] = routeObject;
+
+    QJsonDocument jsonDoc(jsonObject);
+    QByteArray postData = jsonDoc.toJson();
+    
+    // now send the request and set up a callback to handle the response
+    QNetworkReply* reply = networkManager->post(request, postData);
+    connect(reply, &QNetworkReply::finished, this, [this, reply]() {
+        if (reply->error() == QNetworkReply::NoError) {
+            QByteArray responseData = reply->readAll();
+            qCWarning(PlanMasterControllerLog) << "Plan validation response:" << responseData;
+            // Parse the response data.  Pull out the field {"success": true, "data": {"anticipatedResult": "some string here"}}
+            QJsonDocument responseDoc = QJsonDocument::fromJson(responseData);
+            if (responseDoc.isObject()) {
+                QJsonObject responseObject = responseDoc.object();
+                if (responseObject.contains("success") && responseObject["success"].toBool()) {
+                    if (responseObject.contains("data") && responseObject["data"].isObject()) {
+                        QJsonObject dataObject = responseObject["data"].toObject();
+                        if (dataObject.contains("anticipatedResult")) {
+                            _validationAnticipatedResult = dataObject["anticipatedResult"].toString();
+                        }
+                        if (dataObject.contains("timeInTransit")) {
+                            _validationTimeInTransit = dataObject["timeInTransit"].toString();
+                        }
+                        if (dataObject.contains("totalDuration")) {
+                            _validationTotalDuration = dataObject["totalDuration"].toString();
+                        }
+                        if (dataObject.contains("totalMissionCost")) {
+                            // convert totalMissionCost to string from number
+                            _validationTotalMissionCost = QString::number(dataObject["totalMissionCost"].toDouble());
+                        }
+                        if (dataObject.contains("realTimeCost")) {
+                            // convert realTimeCost to string from number
+                            _validationRealTimeCost = QString::number(dataObject["realTimeCost"].toDouble());
+                        }
+                        if (dataObject.contains("missionRisk")) {
+                            _validationMissionRisk = dataObject["missionRisk"].toString();
+                        }
+                        if (dataObject.contains("missionRange")) {
+                            // convert missionRange to string from number
+                            _validationMissionRange = QString::number(dataObject["missionRange"].toDouble());
+                        }
+                    }
+                }
+            }
+        } else {
+            qCWarning(PlanMasterControllerLog) << "Plan validation error:" << reply->errorString();
+            _validationAnticipatedResult = QStringLiteral("Plan validation failed: %1").arg(reply->errorString());
+        }
+        emit validateChanged();
+        reply->deleteLater();
+    });
+   
+    _validationAnticipatedResult = QStringLiteral("Awaiting validation response...");
+    _validationTimeInTransit = QStringLiteral("N/A");
+    _validationTotalDuration = QStringLiteral("N/A");
+    _validationTotalMissionCost = QStringLiteral("N/A");
+    _validationRealTimeCost = QStringLiteral("N/A");
+    _validationMissionRisk = QStringLiteral("N/A");
+    _validationMissionRange = QStringLiteral("N/A");
+    emit validateChanged();
 }
 
 

@@ -281,6 +281,52 @@ void MissionController::addMissionToKML(KMLPlanDomDocument& planKML)
     deleteParent->deleteLater();
 }
 
+void MissionController::addMissionValidationJson(QJsonObject& missionValidationJson)
+{
+    QObject*            deleteParent = new QObject();
+    QList<MissionItem*> rgMissionItems;
+
+    _convertToMissionItems(_visualItems, rgMissionItems, deleteParent);
+
+    if (rgMissionItems.count() >= 2) {
+ 
+        // The first mission object is the origin
+        // The last mission object is the destination
+        const MissionItem* originItem = rgMissionItems.first();
+        const MissionItem* destinationItem = rgMissionItems.last();
+
+        // All of the items in the middle are waypoints
+        // Get origin info
+        missionValidationJson["origin"] = QJsonObject{
+            {"id", QString("origin-1")},
+            {"latitude", originItem->coordinate().latitude()},
+            {"longitude", originItem->coordinate().longitude()}
+        };
+        // Get destination info
+        missionValidationJson["destination"] = QJsonObject{
+            {"id", QString("destination-1")},
+            {"latitude", destinationItem->coordinate().latitude()},
+            {"longitude", destinationItem->coordinate().longitude()}
+        };
+        // Get waypoints
+        // Skip first and last items
+        QJsonArray waypointsArray;
+        for (int i=1; i<rgMissionItems.count() - 1; i++) {
+            const MissionItem* item = rgMissionItems[i];
+            if (item->command() == MAV_CMD_NAV_WAYPOINT) {
+                QJsonObject waypointObject;
+                waypointObject["id"] = QString("waypoint-%1").arg(i+1);
+                waypointObject["latitude"] = item->coordinate().latitude();
+                waypointObject["longitude"] = item->coordinate().longitude();
+                waypointsArray.append(waypointObject);
+            }
+        }
+        missionValidationJson["waypoints"] = waypointsArray;
+    }
+    deleteParent->deleteLater();
+}
+
+
 void MissionController::sendItemsToVehicle(Vehicle* vehicle, QmlObjectListModel* visualMissionItems)
 {
     if (vehicle) {

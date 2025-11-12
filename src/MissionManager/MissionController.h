@@ -223,6 +223,7 @@ public:
 
     // Create KML file
     void addMissionToKML(KMLPlanDomDocument& planKML);
+    void addMissionValidationJson(QJsonObject& missionValidationJson);
 
     // Property accessors
 
