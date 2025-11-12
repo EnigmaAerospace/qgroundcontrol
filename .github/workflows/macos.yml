@@ -34,8 +34,8 @@ jobs:
         shell: bash
 
     env:
-      ARTIFACT: QGroundControl.dmg
-      PACKAGE: QGroundControl
+      ARTIFACT: Nexus-QGC.dmg
+      PACKAGE: Nexus-QGC
       QT_VERSION: 6.8.3
 
     steps:
@@ -95,8 +95,8 @@ jobs:
         run: cmake --build . --target all --config ${{ matrix.BuildType }}
 
       - name: Sanity check dev build executable
-        working-directory: ${{ runner.temp }}/shadow_build_dir/Release/QGroundControl.app/Contents/MacOS
-        run: ./QGroundControl --simple-boot-test
+        working-directory: ${{ runner.temp }}/shadow_build_dir/Release/Nexus-QGC.app/Contents/MacOS
+        run: ./Nexus-QGC --simple-boot-test
 
       - name: Import Code Signing Certificate
         if: github.event_name != 'pull_request'
@@ -116,11 +116,11 @@ jobs:
 
       - name: Mount DMG
         working-directory: ${{ runner.temp }}/shadow_build_dir
-        run: hdiutil attach QGroundControl.dmg
+        run: hdiutil attach Nexus-QGC.dmg
 
       - name: Sanity check DMG executable
-        working-directory: /Volumes/QGroundControl/QGroundControl.app/Contents/MacOS
-        run: ./QGroundControl --simple-boot-test
+        working-directory: /Volumes/Nexus-QGC/Nexus-QGC.app/Contents/MacOS
+        run: ./Nexus-QGC --simple-boot-test
   
       - name: Upload Build File
         if: matrix.BuildType == 'Release'
