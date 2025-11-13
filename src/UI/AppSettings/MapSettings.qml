@@ -39,6 +39,7 @@ Item {
     property Fact   _mapboxAccountFact: _settingsManager ? _settingsManager.appSettings.mapboxAccount : null
     property Fact   _mapboxStyleFact:   _settingsManager ? _settingsManager.appSettings.mapboxStyle : null
     property Fact   _esriFact:          _settingsManager ? _settingsManager.appSettings.esriToken : null
+    property Fact   _strataFact:        _settingsManager ? _settingsManager.appSettings.strataToken : null
     property Fact   _customURLFact:     _settingsManager ? _settingsManager.appSettings.customURL : null
     property Fact   _vworldFact:        _settingsManager ? _settingsManager.appSettings.vworldToken : null
 
@@ -175,6 +176,12 @@ Item {
                 textFieldPreferredWidth:    _largeTextFieldWidth
                 label:                      qsTr("Esri")
                 fact:                       _appSettings.esriToken
+            }
+
+            LabelledFactTextField {
+                textFieldPreferredWidth:    _largeTextFieldWidth
+                label:                      qsTr("Strata")
+                fact:                       _appSettings.strataToken
             }
 
             LabelledFactTextField {

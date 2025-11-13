@@ -201,6 +201,13 @@
     "default":     ""
 },
 {
+    "name":             "strataToken",
+    "shortDesc": "Access token to Strata validation",
+    "longDesc":  "Your personal access token for Strata validation",
+    "type":             "string",
+    "default":     ""
+},
+{
     "name":             "customURL",
     "shortDesc": "Custom Map URL",
     "longDesc":  "URL for X Y Z map with {x} {y} {z} or {zoom} substitutions. Eg: https://basemaps.linz.govt.nz/v1/tiles/aerial/EPSG:3857/{z}/{x}/{y}.png?api=d01ev80nqcjxddfvc6amyvkk1ka",

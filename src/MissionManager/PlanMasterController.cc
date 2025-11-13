@@ -254,9 +254,7 @@ void PlanMasterController::validatePlan(void)
         networkManager->setProxy(proxy);
 #endif
     }
-    // read the environment variable STRATA_KEY for the auth token
-    /// TODO:  Make this a user setting in the app settings
-    QString authToken = qgetenv("STRATA_KEY");
+    QString authToken = SettingsManager::instance()->appSettings()->strataToken()->rawValue().toString().toUtf8();
     QUrl url("http://strata.enigma.aero/api/mission-analysis"); // Replace with your target URL
     QNetworkRequest request(url);
     request.setRawHeader("Content-Type", "application/json");
@@ -319,7 +317,7 @@ void PlanMasterController::validatePlan(void)
     });
    
     _validationAnticipatedResult = QStringLiteral("Awaiting validation response...");
-    _validationTimeInTransit = QStringLiteral("N/A");
+    _validationTimeInTransit = authToken;
     _validationTotalDuration = QStringLiteral("N/A");
     _validationTotalMissionCost = QStringLiteral("N/A");
     _validationRealTimeCost = QStringLiteral("N/A");

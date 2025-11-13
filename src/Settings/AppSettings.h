@@ -47,6 +47,7 @@ public:
     DEFINE_SETTINGFACT(mapboxAccount)
     DEFINE_SETTINGFACT(mapboxStyle)
     DEFINE_SETTINGFACT(esriToken)
+    DEFINE_SETTINGFACT(strataToken)
     DEFINE_SETTINGFACT(customURL)
     DEFINE_SETTINGFACT(vworldToken)
     DEFINE_SETTINGFACT(gstDebugLevel)
