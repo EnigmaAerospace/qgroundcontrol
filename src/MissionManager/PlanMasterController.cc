@@ -317,7 +317,7 @@ void PlanMasterController::validatePlan(void)
     });
    
     _validationAnticipatedResult = QStringLiteral("Awaiting validation response...");
-    _validationTimeInTransit = authToken;
+    _validationTimeInTransit = QStringLiteral("N/A");
     _validationTotalDuration = QStringLiteral("N/A");
     _validationTotalMissionCost = QStringLiteral("N/A");
     _validationRealTimeCost = QStringLiteral("N/A");
