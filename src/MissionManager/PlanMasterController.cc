@@ -254,8 +254,10 @@ void PlanMasterController::validatePlan(void)
         networkManager->setProxy(proxy);
 #endif
     }
-    QString authToken = "DUMMY_TOKEN"; // Replace with your actual token
-    QUrl url("DUMMY_URL/mission-analysis"); // Replace with your target URL
+    // read the environment variable STRATA_KEY for the auth token
+    /// TODO:  Make this a user setting in the app settings
+    QString authToken = qgetenv("STRATA_KEY");
+    QUrl url("http://strata.enigma.aero/api/mission-analysis"); // Replace with your target URL
     QNetworkRequest request(url);
     request.setRawHeader("Content-Type", "application/json");
     request.setRawHeader("Accept", "application/json");
